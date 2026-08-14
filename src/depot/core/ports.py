@@ -36,6 +36,27 @@ class SessionStore(typing.Protocol):
     def revoke(self, session_id: str) -> None: ...
 
 
+class DocumentStore(typing.Protocol):
+    """Keeps the documents that belong to a parcel.
+
+    The storage key is built by the store and never by its callers, so that a
+    depot can change how it partitions its storage without any service above
+    having to follow. The day a document belongs to is passed in rather than
+    read from a clock: a manifest that is filed after midnight still belongs to
+    the shift that produced it.
+    """
+
+    def key_for(self, tracking_code: str, day: str, kind: str) -> str: ...
+
+    def put_label(self, tracking_code: str, day: str, label: bytes) -> str: ...
+
+    def put_manifest(self, tracking_code: str, day: str, manifest: bytes) -> str: ...
+
+    def read(self, key: str) -> bytes | None: ...
+
+    def drop(self, key: str) -> bool: ...
+
+
 class IdGenerator(typing.Protocol):
     """Mints the references under which the depot files its records.
 

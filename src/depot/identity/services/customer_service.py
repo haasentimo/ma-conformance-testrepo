@@ -77,13 +77,13 @@ class CustomerService:
         )
         return True
 
-    def file_handover_form(self, reference: str, form: bytes) -> str:
+    def file_handover_form(self, reference: str, day: str, form: bytes) -> str:
         """Store the signed hand-over form and return its storage key."""
-        return self.documents.put_manifest(reference, form)
+        return self.documents.put_manifest(reference, day, form)
 
-    def handover_form(self, reference: str) -> bytes | None:
+    def handover_form(self, reference: str, day: str) -> bytes | None:
         """Return a filed hand-over form, or None if none was ever stored."""
-        return self.documents.read(self.documents.key_for(reference, "manifest"))
+        return self.documents.read(self.documents.key_for(reference, day, "manifest"))
 
     def blocked_today(self) -> list[str]:
         """List the references the counter must refuse."""

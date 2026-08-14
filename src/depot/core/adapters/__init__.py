@@ -16,7 +16,7 @@ import depot.core.adapters.internal.session
 import depot.core.ports
 
 __all__ = [
-    "Clock",
+    "DocumentStore",
     "LruCache",
     "Session",
     "SessionFactory",
@@ -26,7 +26,7 @@ __all__ = [
 
 def __getattr__(name: str) -> object:
     """Resolve a re-exported name against the module it really lives in."""
-    if name in ("Clock", "SessionStore"):
+    if name in ("DocumentStore", "SessionStore"):
         return getattr(depot.core.ports, name)
     if name in ("Session", "SessionFactory"):
         return getattr(depot.core.adapters.internal.session, name)
