@@ -74,6 +74,19 @@ class NotificationSender(typing.Protocol):
     def send(self, recipient: str, template: str, fields: dict[str, str]) -> bool: ...
 
 
+class ShelfAllocator(typing.Protocol):
+    """Hands out the shelf slots an accepted parcel is put away in.
+
+    Which slot a parcel goes to is decided by the warehouse system, not by the
+    depot software: the shelves are shared with the returns handling, and only
+    the warehouse knows what is free at that moment.
+    """
+
+    def reserve(self, depot_code: str, parcel_count: int) -> str: ...
+
+    def release(self, slot: str) -> bool: ...
+
+
 class RateProvider(typing.Protocol):
     """Supplies the carrier rate for a destination zone and weight."""
 
