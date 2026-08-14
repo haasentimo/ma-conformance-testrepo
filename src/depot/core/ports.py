@@ -36,6 +36,23 @@ class SessionStore(typing.Protocol):
     def revoke(self, session_id: str) -> None: ...
 
 
+class IdGenerator(typing.Protocol):
+    """Mints the references under which the depot files its records.
+
+    A reference is handed to the customer on the collection slip, so it must be
+    stable and free of a database round trip; the repositories ask for one
+    before they write.
+    """
+
+    def new_id(self, prefix: str) -> str: ...
+
+
+class NotificationSender(typing.Protocol):
+    """Delivers a short notice to a customer over their preferred channel."""
+
+    def send(self, recipient: str, template: str, fields: dict[str, str]) -> bool: ...
+
+
 class RateProvider(typing.Protocol):
     """Supplies the carrier rate for a destination zone and weight."""
 
