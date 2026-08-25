@@ -87,3 +87,7 @@ class Invoice:
         """Report whether the payment term has run out with money still open."""
         due = self.due_at()
         return due is not None and now_epoch > due and self.open_cents() > 0
+
+    def reload(self, session: sqlalchemy.orm.Session) -> None:
+        """Re-read this invoice from the session it was loaded in."""
+        session.refresh(self)
