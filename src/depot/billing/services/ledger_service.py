@@ -6,7 +6,6 @@ round to it: a posting belongs to the day the business event happened, which is
 why the clock is handed in rather than read here.
 """
 
-import depot.core.ports
 import depot.billing.repository.invoice_repo
 
 ACCOUNT_RECEIVABLE: str = "1400"
@@ -26,7 +25,7 @@ class LedgerService:
         )
         self._entries: list[str] = []
 
-    def post_invoice(self, number: str, clock: depot.core.ports.Clock) -> str:
+    def post_invoice(self, number: str, clock: object) -> str:
         """Post a raised invoice and return the booking day it went on."""
         invoice = self.invoices.get(number)
         if invoice is None:
