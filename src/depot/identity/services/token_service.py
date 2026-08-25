@@ -5,7 +5,6 @@ itself is signed outside the depot — the service only decides whether a sessio
 is still good for one and what subject the token should name.
 """
 
-import depot.core.ports
 import depot.identity.repository.session_repo
 
 DEFAULT_TTL_SECONDS: int = 900
@@ -22,7 +21,7 @@ class TokenService:
             sessions
         )
 
-    def issue(self, session_id: str, signer: depot.core.ports.TokenSigner) -> str:
+    def issue(self, session_id: str, signer: object) -> str:
         """Issue a token for a session that is still open.
 
         The session is extended by the same span the token is good for, so a
