@@ -5,7 +5,6 @@ taken. The money itself moves outside the depot; this service decides the
 amount and hands it to the gateway.
 """
 
-import depot.core.ports
 import depot.orders.repository.order_repo
 
 CANCELLATION_FEE_CENTS: int = 300
@@ -21,7 +20,7 @@ class RefundService:
         self,
         reference: str,
         payment_reference: str,
-        gateway: depot.core.ports.PaymentGateway,
+        gateway: object,
     ) -> str:
         """Refund a cancelled order and return the gateway's receipt.
 
