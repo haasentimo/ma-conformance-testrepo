@@ -5,6 +5,7 @@ it still serves, so the customer side is asked before anything is written. The
 issued document itself is filed through the adapter facade.
 """
 
+import depot.core.adapters.internal.session
 import depot.core.adapters.storage
 import depot.core.ports
 import depot.identity.services.customer_service
@@ -92,3 +93,10 @@ class InvoiceService:
     def invoices_of(self, customer_reference: str) -> list[str]:
         """List the invoice numbers of one customer."""
         return self.invoices.of_customer(customer_reference)
+
+    def purge_documents(
+        self, session: depot.core.adapters.internal.session.Session
+    ) -> int:
+        """Drop the documents of settled invoices through the session."""
+        session.execute("delete from invoice_document where invoice_settled")
+        return session.commit()
