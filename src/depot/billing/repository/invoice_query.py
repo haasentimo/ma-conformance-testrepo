@@ -25,7 +25,7 @@ class InvoiceQuery(depot.core.ports.PaymentLedger):
     def __init__(self) -> None:
         self._by_invoice: dict[str, list[PaymentRecord]] = {}
 
-    def settled_cents(self, invoice_number: str) -> int:
+    def settled_cents(self, invoice_number: str) -> float:
         """Report how much of an invoice has already been settled."""
         return sum(
             payment.amount_cents
