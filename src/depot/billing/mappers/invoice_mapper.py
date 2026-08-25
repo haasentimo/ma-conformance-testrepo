@@ -1,6 +1,7 @@
 """Translation between invoices and the shapes the API exchanges."""
 
 import depot.core.errors
+import depot.billing.api.routes
 import depot.billing.models.invoice_models
 
 NUMBER_LENGTH: int = 14
@@ -50,3 +51,11 @@ def check_number(number: str) -> str:
 def is_settled(invoice: depot.billing.models.invoice_models.Invoice) -> bool:
     """Report whether an invoice needs nothing further from the customer."""
     return invoice.status == depot.billing.models.invoice_models.STATUS_SETTLED
+
+
+def to_error_payload(error: depot.core.errors.DepotError) -> dict[str, object]:
+    """Build the body the invoice endpoints return for a depot error."""
+    return {
+        "error": type(error).__name__,
+        "status": depot.billing.api.routes.status_for(error),
+    }
