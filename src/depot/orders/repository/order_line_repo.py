@@ -1,6 +1,7 @@
 """Storage of the order lines — one row per physical parcel."""
 
 import depot.core.ports
+import depot.billing.repository.invoice_repo
 import depot.orders.models.order_line_models
 
 OrderLineRecord = depot.orders.models.order_line_models.OrderLine
@@ -72,3 +73,14 @@ class OrderLineRepository:
             for line in self.of_order(order_reference)
             if line.needs_two_hands()
         )
+
+    def billed_order_of(
+        self,
+        number: str,
+        invoices: depot.billing.repository.invoice_repo.InvoiceRepository,
+    ) -> str:
+        """Report which order an invoice number was raised for."""
+        invoice = invoices.get(number)
+        if invoice is None:
+            return ""
+        return invoice.order_reference
