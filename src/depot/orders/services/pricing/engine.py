@@ -7,6 +7,7 @@ deliberately knows nothing about orders, storage or carriers.
 """
 
 import depot.core.errors
+import depot.orders.services
 
 BAND_EDGES_GRAMS: tuple[int, ...] = (2000, 5000, 10000, 20000, 31500)
 BAND_PRICES_CENTS: tuple[int, ...] = (490, 690, 990, 1490, 1990)
@@ -59,3 +60,7 @@ class PricingEngine:
         if remainder == 0:
             return amount_cents
         return amount_cents + ROUNDING_STEP_CENTS - remainder
+
+    def matches_context_handling(self) -> bool:
+        """Report whether this engine prices at its context handling rate."""
+        return self.handling_percent == depot.orders.services.HANDLING_PERCENT
