@@ -55,3 +55,7 @@ class OrderLine:
     def needs_two_hands(self) -> bool:
         """Report whether a single parcel of this line is a two-person lift."""
         return self.weight_grams > 20000 or self.fragile
+
+    def reload(self, session: sqlalchemy.orm.Session) -> None:
+        """Re-read this line from the session it was loaded in."""
+        session.refresh(self)
