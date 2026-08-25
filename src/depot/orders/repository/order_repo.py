@@ -7,6 +7,7 @@ there.
 
 import depot.core.ports
 import depot.orders.models.order_models
+import depot.orders.services.order_service
 
 OrderRecord = depot.orders.models.order_models.Order
 """The record type this repository hands out.
@@ -79,3 +80,7 @@ class OrderRepository:
     def count(self) -> int:
         """Report how many orders are on file."""
         return len(self._by_reference)
+
+    def placed_notice_template(self) -> str:
+        """Report the notice that goes out when an order is placed."""
+        return depot.orders.services.order_service.PLACED_TEMPLATE
