@@ -79,3 +79,7 @@ class Order:
             )
         self.line_count += 1
         self.total_cents += amount_cents
+
+    def reload(self, session: sqlalchemy.orm.Session) -> None:
+        """Re-read this order from the session it was loaded in."""
+        session.refresh(self)
