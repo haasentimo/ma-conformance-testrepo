@@ -5,7 +5,6 @@ not own and asks for through a port, and the discount codes it honours itself.
 Both are read-only — a quote writes nothing.
 """
 
-import depot.core.ports
 import depot.orders.repository.order_query
 
 
@@ -19,7 +18,7 @@ class CatalogService:
         self,
         zone: str,
         weight_grams: int,
-        rates: depot.core.ports.RateProvider,
+        rates: object,
     ) -> int:
         """Quote one parcel at the carrier tariff, before any discount."""
         if weight_grams <= 0:
