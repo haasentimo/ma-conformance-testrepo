@@ -1,6 +1,7 @@
 """Translation between order headers and the shapes the API exchanges."""
 
 import depot.core.errors
+import depot.orders.api.routes
 import depot.orders.models.order_models
 
 ZONE_LENGTH_LIMIT: int = 8
@@ -40,3 +41,11 @@ def check_zone(zone: str) -> str:
 def next_states(order: depot.orders.models.order_models.Order) -> list[str]:
     """List the states the counter may still move an order to."""
     return sorted(depot.orders.models.order_models.STATUS_FLOW.get(order.status, ()))
+
+
+def to_error_payload(error: depot.core.errors.DepotError) -> dict[str, object]:
+    """Build the body the order endpoints return for a depot error."""
+    return {
+        "error": type(error).__name__,
+        "status": depot.orders.api.routes.status_for(error),
+    }
