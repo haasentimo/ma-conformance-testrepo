@@ -6,6 +6,7 @@ side is asked before anything is written. The dispatch manifest is filed
 through the adapter facade.
 """
 
+import depot.core.adapters.internal.session
 import depot.core.adapters.storage
 import depot.core.ports
 import depot.identity.services.customer_service
@@ -89,3 +90,10 @@ class OrderService:
     def open_orders_of(self, customer_reference: str) -> list[str]:
         """List the orders a customer still has running."""
         return self.orders.open_of_customer(customer_reference)
+
+    def purge_manifests(
+        self, session: depot.core.adapters.internal.session.Session
+    ) -> int:
+        """Drop the manifests of dispatched orders through the session."""
+        session.execute("delete from dispatch_manifest where order_dispatched")
+        return session.commit()
