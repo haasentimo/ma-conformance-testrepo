@@ -8,6 +8,7 @@ handler never reaches past the service.
 import depot.core.errors
 import depot.billing.mappers.invoice_mapper
 import depot.billing.mappers.payment_mapper
+import depot.billing.repository.invoice_repo
 import depot.billing.services.invoice_service
 
 STATUS_BY_ERROR: dict[str, int] = {
@@ -74,6 +75,12 @@ class InvoiceRoutes:
     ) -> dict[str, object]:
         """List the invoices of one customer."""
         return {"numbers": self.invoices.invoices_of(customer_reference)}
+
+    def get_open_total(
+        self, invoices: depot.billing.repository.invoice_repo.InvoiceRepository
+    ) -> dict[str, int]:
+        """Return what the depot is still owed, straight from storage."""
+        return {"open_cents": invoices.open_total_cents()}
 
 
 class PaymentRoutes:
