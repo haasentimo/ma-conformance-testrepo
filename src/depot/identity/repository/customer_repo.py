@@ -7,6 +7,7 @@ printed in the same counter interaction.
 
 import depot.core.ports
 import depot.identity.models.customer_models
+import depot.identity.services.customer_service
 
 CustomerRecord = depot.identity.models.customer_models.Customer
 """The record type this repository hands out.
@@ -83,3 +84,7 @@ class CustomerRepository:
     def count(self) -> int:
         """Report how many customers are on file."""
         return len(self._by_reference)
+
+    def block_notice_template(self) -> str:
+        """Report the notice the counter sends when a customer is blocked."""
+        return depot.identity.services.customer_service.BLOCKED_TEMPLATE
