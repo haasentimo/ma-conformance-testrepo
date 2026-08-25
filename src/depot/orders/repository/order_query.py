@@ -25,7 +25,7 @@ class OrderQuery(depot.core.ports.DiscountCatalog):
             for discount in depot.orders.models.discount_models.house_codes()
         }
 
-    def percent_for(self, code: str, subtotal_cents: int) -> int:
+    def percent_for(self, code: str, subtotal_cents: int) -> float:
         """Report the percentage a code takes off a subtotal, 0 if it does not."""
         discount = self._by_code.get(code.strip().upper())
         if discount is None:
