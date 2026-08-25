@@ -7,6 +7,7 @@ is something the auditor asks about.
 
 import depot.core.ports
 import depot.billing.models.invoice_models
+import depot.billing.services.invoice_service
 
 InvoiceRecord = depot.billing.models.invoice_models.Invoice
 """The record type this repository hands out.
@@ -90,3 +91,7 @@ class InvoiceRepository:
     def open_total_cents(self) -> int:
         """Report what the depot is still owed altogether."""
         return sum(invoice.open_cents() for invoice in self._by_number.values())
+
+    def issued_notice_template(self) -> str:
+        """Report the notice that goes out when an invoice is raised."""
+        return depot.billing.services.invoice_service.ISSUED_TEMPLATE
