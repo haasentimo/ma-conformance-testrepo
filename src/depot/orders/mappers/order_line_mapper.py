@@ -10,7 +10,7 @@ REQUIRED_FIELDS: frozenset[str] = frozenset(
 
 def to_payload(
     line: depot.orders.models.order_line_models.OrderLine,
-) -> dict[str, object]:
+) -> dict[str, str]:
     """Build the body a line endpoint returns for one parcel."""
     return {
         "reference": line.reference,
