@@ -7,6 +7,7 @@ depot loses a business customer.
 """
 
 import depot.core.ports
+import depot.orders.models.order_models
 import depot.billing.repository.invoice_query
 
 FIRST_REMINDER_TEMPLATE: str = "invoice.reminder.first"
@@ -72,3 +73,7 @@ class DunningService:
     def unmatched_cents(self) -> int:
         """Report how much money the bookkeeping still has to assign by hand."""
         return self.payments.unmatched_cents()
+
+    def is_dispatched(self, order_status: str) -> bool:
+        """Report whether an order status means the shipment has left."""
+        return order_status == depot.orders.models.order_models.STATUS_DISPATCHED
