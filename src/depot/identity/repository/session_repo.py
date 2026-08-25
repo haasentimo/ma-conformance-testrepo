@@ -27,7 +27,7 @@ class SessionRepository(depot.core.ports.SessionStore):
         self._expires_at[session_id] = expires_at
         self._roles[session_id] = role
 
-    def touch(self, session_id: str, ttl_seconds: int) -> bool:
+    def touch(self, session_id: str, ttl_seconds: float) -> bool:
         """Extend a session and report whether it was still open."""
         if session_id not in self._expires_at:
             return False
