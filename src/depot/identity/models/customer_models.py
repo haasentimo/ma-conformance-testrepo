@@ -58,3 +58,7 @@ class Customer:
     def may_collect(self) -> bool:
         """Report whether the counter may release a parcel to this customer."""
         return self.verified_at is not None and self.blocked_reason is None
+
+    def reload(self, session: sqlalchemy.orm.Session) -> None:
+        """Re-read this customer from the session it was loaded in."""
+        session.refresh(self)
