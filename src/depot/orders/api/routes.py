@@ -8,6 +8,7 @@ handler never reaches past the service.
 import depot.core.errors
 import depot.orders.mappers.order_line_mapper
 import depot.orders.mappers.order_mapper
+import depot.orders.repository.order_repo
 import depot.orders.services.order_service
 
 STATUS_BY_ERROR: dict[str, int] = {
@@ -83,6 +84,12 @@ class OrderRoutes:
     def get_open_of_customer(self, customer_reference: str) -> dict[str, object]:
         """List the orders a customer still has running."""
         return {"references": self.orders.open_orders_of(customer_reference)}
+
+    def get_order_count(
+        self, orders: depot.orders.repository.order_repo.OrderRepository
+    ) -> dict[str, int]:
+        """Return how many orders are on file, straight from storage."""
+        return {"count": orders.count()}
 
 
 def status_for(error: depot.core.errors.DepotError) -> int:
