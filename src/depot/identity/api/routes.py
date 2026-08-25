@@ -8,6 +8,7 @@ Storage is none of their business — a handler never reaches past the service.
 import depot.core.errors
 import depot.identity.mappers.customer_mapper
 import depot.identity.mappers.role_mapper
+import depot.identity.repository.customer_repo
 import depot.identity.services.customer_service
 
 STATUS_BY_ERROR: dict[str, int] = {
@@ -72,6 +73,12 @@ class CustomerRoutes:
     def get_blocked(self) -> dict[str, object]:
         """List the references the counter must refuse today."""
         return {"references": self.customers.blocked_today()}
+
+    def get_customer_count(
+        self, customers: depot.identity.repository.customer_repo.CustomerRepository
+    ) -> dict[str, int]:
+        """Return how many customers are on file, straight from storage."""
+        return {"count": customers.count()}
 
 
 class RoleRoutes:
