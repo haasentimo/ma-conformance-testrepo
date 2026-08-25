@@ -1,6 +1,7 @@
 """Translation between customer records and the shapes the API exchanges."""
 
 import depot.core.errors
+import depot.identity.api.routes
 import depot.identity.models.customer_models
 
 WRITABLE_FIELDS: frozenset[str] = frozenset({"display_name", "phone"})
@@ -51,3 +52,11 @@ def apply_changes(
         customer.phone = changes["phone"]
         moved += 1
     return moved
+
+
+def to_error_payload(error: depot.core.errors.DepotError) -> dict[str, object]:
+    """Build the body the customer endpoints return for a depot error."""
+    return {
+        "error": type(error).__name__,
+        "status": depot.identity.api.routes.status_for(error),
+    }
