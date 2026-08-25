@@ -6,6 +6,7 @@ after a dispute. The service also files the signed hand-over forms, which is
 why it holds the document store.
 """
 
+import depot.core.adapters.internal.session
 import depot.core.adapters.storage
 import depot.core.ports
 import depot.identity.repository.customer_repo
@@ -88,3 +89,10 @@ class CustomerService:
     def blocked_today(self) -> list[str]:
         """List the references the counter must refuse."""
         return self.customers.blocked_references()
+
+    def purge_documents(
+        self, session: depot.core.adapters.internal.session.Session
+    ) -> int:
+        """Drop the filed forms of closed accounts through the session."""
+        session.execute("delete from customer_document where account_closed")
+        return session.commit()
